@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Food and Wine ontologies SPARQL queries.
+You can run this example queries on protege after executing the reasoner inference.
+-->
+
+<!-- 
+Query for retrieving all the food instances of the food:EdibleThing Class, filtering WineGrape type. 
+Same of calling EdibleThing.listInstances() JENA API method.
+--> 
+PREFIX food: <http://www.w3.org/TR/2003/CR-owl-guide-20030818/food#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?entity ?type
+WHERE {
+   FILTER  NOT EXISTS { FILTER(regex ( STR(?type) , "WineGrape", "i" ) ) }
+  ?entity rdf:type ?type.  
+  ?type rdfs:subClassOf* food:EdibleThing. 
+}
+
+<!-- 
+Query for retrieving the wine properties that the wine must satisfy for a given MealCourse.
+--> 
+
+PREFIX food: <http://www.w3.org/TR/2003/CR-owl-guide-20030818/food#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?superProp ?prop ?propValue
+WHERE {
+ food:NonRedMeatCourse rdfs:subClassOf* ?superProp.  
+ ?superProp  owl:allValuesFrom ?prop.
+ ?prop owl:hasValue ?propValue.
+}
+

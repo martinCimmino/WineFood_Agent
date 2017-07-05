@@ -360,8 +360,12 @@ public class wineAgentUI extends javax.swing.JFrame {
             outputMode = true;
             DefaultListModel modelOutput = new DefaultListModel();
             //jList1 = new JList(model);
-            for (int i = 0; i < wine.length; i++) {
-                modelOutput.addElement(wine[i]);
+            if (wine.length == 0){
+                modelOutput.addElement("Sorry, we didn't find any wine instance");  
+            }else {
+                for (int i = 0; i < wine.length; i++) {
+                    modelOutput.addElement(wine[i]);
+                }
             }
             jList1.setModel(modelOutput);
             jScrollPane1.setViewportView(jList1);
