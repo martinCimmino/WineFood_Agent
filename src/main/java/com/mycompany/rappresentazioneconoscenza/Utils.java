@@ -143,6 +143,10 @@ public class Utils {
            return arr;
         }
         
+        /*
+         * This method exploit the fact Meal Course Classes has Restriction with "all values from" (on property has food) a given food class 
+         *
+         */
         public static OntClass getMealCourseFromMealOntClass (OntModel ontoModelFood, OntClass selectedDishClass){
             String restriction = getRestrictionBlankNodeOnPropertyHasFood(ontoModelFood, null , OWL.allValuesFrom , selectedDishClass );
             OntClass selectedDishClassCourse = null;

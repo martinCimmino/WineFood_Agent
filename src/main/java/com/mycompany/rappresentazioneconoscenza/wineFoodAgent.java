@@ -69,14 +69,23 @@ public class wineFoodAgent extends Object {
     public static String[] getDishInstancesArr(){
         return dishInstancesArr;
     }
-    
+    /*
+     * This method creates the ontology model and retrieves the food instances 
+     * ( also transofrms instances from list to array )
+     */
     public void InitializeAgent () {
-        ontoModelFood = Utils.createOntoModel(inputFood);
+        ontoModelFood = Utils.createOntoModel(inputFood); // passing inputWine is the same  
         // Get dish instances, need inference model in order to get all instances
         dishInstancesList = Utils.getInstancesOfClass(ontoModelFood, "EdibleThing", foodURI, excludedMenuFoodClassName); 
         dishInstancesArr = Utils.populateArrayFromList((ArrayList<OntResource>) dishInstancesList);
     }
     
+    /*
+     * This method creates find the wine properties for a given instance food:
+     * - First find the instance food Resource from the given String parameter
+     * - Second retrieve the food instance Meal Course class from the class of the food instance
+     * - Third retrieve the wine properties expressed inside the Meal Course Class
+     */
     public Map lookUpWineProperties (String dishSelectedString) {
         for (Iterator it = dishInstancesList.iterator(); it.hasNext();) {
             OntResource instance = (OntResource) it.next();
@@ -106,8 +115,11 @@ public class wineFoodAgent extends Object {
         //System.out.println(dictionary);
         return dictionary;  
     }
-
-    // string parameters must be null if property is not present
+    
+    /*
+     * This method calls a Sparql Query in order to retrieve the wine instance that satisfy given properties
+     * N.B string parameters must be null if property is not present
+     */
     public String [] lookupWine (String sugar_Prop, String color_Prop, String flavor_Prop, String body_Prop){
         List wineInstances = SparqlQuery.findWineInstanceSparqlQuery(sugar_Prop, color_Prop, flavor_Prop, body_Prop);
         String [] wine = (String[]) wineInstances.toArray(new String[0]);
